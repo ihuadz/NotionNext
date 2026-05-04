@@ -2071,6 +2071,11 @@ code.language-mermaid {
   margin: auto;
 }
 
+/* 深色：仅提亮 flowchart 连线（不改 mermaid JS 配置） */
+html.dark .mermaid .edgePath .path {
+  stroke: #94a3b8 !important;
+}
+
 .notion-equation-inline .katex-display {
   margin: 0 0 !important;
 }
