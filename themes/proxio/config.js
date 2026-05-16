@@ -265,9 +265,7 @@ const CONFIG = {
   PROXIO_CTA_ENABLE: true,
   PROXIO_CTA_TITLE: '与我建立联系',
   PROXIO_CTA_TITLE_2: '如何联系我本人',
-  PROXIO_CTA_DESCRIPTION:
-    '教学咨询 / 演出合作 / 书籍洽谈 / 课程定制
-Teaching Inquiry / Performance Cooperation / Book Negotiation / Course Customization',
+  PROXIO_CTA_DESCRIPTION: '教学咨询 / 演出合作 / 书籍洽谈 / 课程定制 | Teaching Inquiry / Performance Cooperation / Book Negotiation / Course Customization',
   PROXIO_CTA_BUTTON: true, // 是否显示按钮
   PROXIO_CTA_BUTTON_URL: '/about',
   PROXIO_CTA_BUTTON_TEXT: '联系我',
