@@ -28,3 +28,9 @@
 - Build time: `66.405s` (vs previous: `-2001 ms`)
 - Static assets: `4.86 MB` (vs previous: `0 B`)
 - Server assets: `12.36 MB` (vs previous: `-23,930 B`)
+
+## Acceptance snapshot (2026-05-31, 19:10)
+- `node scripts/perf-baseline.js --mode=compare`
+- Build time: `57.57s` (vs previous: `-8.835 s`)
+- Static assets: `4.86 MB` (vs previous: `+67 B`)
+- Server assets: `12.38 MB` (vs previous: `+23.38 KB`)
