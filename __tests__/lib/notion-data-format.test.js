@@ -295,6 +295,31 @@ describe('Notion data format compatibility', () => {
     expect(formatted.page_1.value.type).toBe('sub_sub_header')
   })
 
+  it('keeps quote blocks with child content renderable when Notion omits title properties', () => {
+    const formatted = formatNotionBlock({
+      quote_1: {
+        value: {
+          id: 'quote_1',
+          type: 'quote',
+          content: ['text_1']
+        }
+      },
+      text_1: {
+        value: {
+          id: 'text_1',
+          type: 'text',
+          parent_id: 'quote_1',
+          properties: {
+            title: [['Nested quote content']]
+          }
+        }
+      }
+    })
+
+    expect(formatted.quote_1.value.properties).toEqual({ title: [['']] })
+    expect(formatted.quote_1.value.content).toEqual(['text_1'])
+  })
+
   it('builds a stable toc for newer heading block types', () => {
     const page = {
       id: 'page_root',
