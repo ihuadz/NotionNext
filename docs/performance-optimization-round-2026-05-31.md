@@ -22,3 +22,9 @@
 
 ## Version
 - Bumped package version to `4.9.5.9`.
+
+## Acceptance snapshot (2026-05-31, 19:00)
+- `node scripts/perf-baseline.js --mode=compare`
+- Build time: `66.405s` (vs previous: `-2001 ms`)
+- Static assets: `4.86 MB` (vs previous: `0 B`)
+- Server assets: `12.36 MB` (vs previous: `-23,930 B`)
