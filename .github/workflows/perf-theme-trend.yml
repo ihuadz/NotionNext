@@ -1,0 +1,70 @@
+name: Theme Performance Trend
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'themes/**'
+      - 'components/**'
+      - 'pages/**'
+      - 'hooks/**'
+      - 'scripts/**'
+      - 'conf/**'
+      - 'public/**'
+      - '.github/workflows/perf-theme-trend.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 1'
+
+concurrency:
+  group: theme-audit-trend-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  trend-gate:
+    name: Theme audit trend gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      THEME_AUDIT_THEMES: nav,commerce,landing,typography
+      THEME_AUDIT_RUNS: '2'
+      THEME_AUDIT_SKIP_TRACKED_REPORTS: 'true'
+      THEME_AUDIT_MAX_MEAN_DROP_PCT: '3'
+      THEME_AUDIT_MAX_THEME_DROP_PCT: '8'
+      THEME_AUDIT_MIN_PASS_RATE_PCT: '95'
+      THEME_AUDIT_FAIL_ON_MISSING: 'true'
+      THEME_AUDIT_BASE_URL: 'http://127.0.0.1:3000'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - name: Start app server
+        run: |
+          yarn start -- --hostname 0.0.0.0 --port 3000 > /tmp/theme-audit-server.log 2>&1 &
+          echo $! > /tmp/theme-audit-server.pid
+      - name: Wait for app
+        run: |
+          for i in {1..40}; do
+            if curl --silent --fail http://127.0.0.1:3000/ >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo 'App did not become ready within timeout.'
+          cat /tmp/theme-audit-server.log
+          exit 1
+      - name: Audit critical themes
+        run: yarn perf:audit:themes
+      - name: Check trend gate
+        run: yarn perf:audit:trend-check
+      - name: Stop app server
+        if: always()
+        run: |
+          if [ -f /tmp/theme-audit-server.pid ]; then
+            kill "$(cat /tmp/theme-audit-server.pid)" || true
+          fi
+          wait || true

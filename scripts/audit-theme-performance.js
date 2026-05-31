@@ -329,15 +329,21 @@ function main() {
 
   const summaryPath = path.join(reportDir, 'summary.json')
   const markdownPath = path.join(reportDir, 'summary.md')
+  const trackedMarkdownPath = path.join(docsPerfDir, 'theme-audit-latest.md')
+  const trackedJsonPath = path.join(docsPerfDir, 'theme-audit-latest.json')
+  const trackReports = process.env.THEME_AUDIT_SKIP_TRACKED_REPORTS !== 'true'
+
   fs.writeFileSync(summaryPath, JSON.stringify(results, null, 2))
   writeMarkdown(results, markdownPath)
 
-  const trackedJsonPath = path.join(docsPerfDir, 'theme-audit-latest.json')
-  const trackedMarkdownPath = path.join(docsPerfDir, 'theme-audit-latest.md')
-  fs.writeFileSync(trackedJsonPath, JSON.stringify(results, null, 2))
-  writeMarkdown(results, trackedMarkdownPath)
+  if (trackReports) {
+    fs.writeFileSync(trackedJsonPath, JSON.stringify(results, null, 2))
+    writeMarkdown(results, trackedMarkdownPath)
+  }
 
-  console.log(`\nTheme audit finished. Results: ${path.relative(root, trackedMarkdownPath)}`)
+  console.log(
+    `\nTheme audit finished. Results: ${path.relative(root, trackReports ? trackedMarkdownPath : markdownPath)}`
+  )
   if (failedThemes.length > 0) {
     console.warn(`Theme audit completed with failures: ${failedThemes.join(',')}`)
   }

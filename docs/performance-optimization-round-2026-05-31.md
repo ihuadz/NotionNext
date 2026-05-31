@@ -104,3 +104,31 @@
   - `cmd /c yarn perf:audit:themes` (full pass: 25 themes, 25 passed, average stability 100.00%)
 - Version
   - Bumped package version to `4.9.5.12` via `node scripts/bump-package-patch-version.js`.
+
+## Trend gate groundwork completed (2026-05-31, 13:35)
+- `scripts/check-theme-audit-trend.js`
+  - Added a baseline-vs-current trend checker for theme audit results.
+  - Inputs:
+    - `PERF_AUDIT_BASELINE` (default: `docs/performance/theme-audit-latest.json`)
+    - `PERF_AUDIT_CURRENT` (default: `.perf/theme-audit/summary.json`)
+  - Checks:
+    - Mean performance delta threshold (`THEME_AUDIT_MAX_MEAN_DROP_PCT`)
+    - Per-theme performance drop threshold (`THEME_AUDIT_MAX_THEME_DROP_PCT`)
+    - Stability pass-rate threshold (`THEME_AUDIT_MIN_PASS_RATE_PCT`)
+    - Optional strict missing-theme mode (`THEME_AUDIT_FAIL_ON_MISSING`)
+  - Emits `.perf/theme-audit/trend-report.json` for CI/readable audit trail.
+- `scripts/audit-theme-performance.js`
+  - Added `THEME_AUDIT_SKIP_TRACKED_REPORTS=true` to avoid tracked report writes during CI trend checks.
+- CI automation
+  - Added `.github/workflows/perf-theme-trend.yml`
+  - Runs with a focused theme set (`nav,commerce,landing,typography`) and strict trend thresholds,
+    currently triggered by core perf-touching path changes, manual dispatch, and weekly schedule.
+- Added package scripts:
+  - `perf:audit:trend-check`: run the trend gate.
+  - `perf:audit:ci`: run audit + trend check in one command.
+- Verification
+  - `cmd /c yarn eslint scripts\\audit-theme-performance.js scripts\\check-theme-audit-trend.js`
+  - Manual dry-run trend check against sample JSON payloads:
+    - `THEME_AUDIT_MIN_PASS_RATE_PCT` and drop thresholds drive expected fail/pass paths.
+- Version
+  - Bumped package version to `4.9.5.13` via `node scripts/bump-package-patch-version.js`.
