@@ -68,3 +68,6 @@ package-lock.json
 .perf/
 tsconfig.tsbuildinfo
 webpack-internal:/
+
+# personal agent working files (contains secrets, do not commit)
+agent_files/
