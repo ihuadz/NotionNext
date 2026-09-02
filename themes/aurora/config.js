@@ -44,8 +44,7 @@ const CONFIG = {
     {
       title: 'SyngDB',
       image: 'https://files.seeusercontent.com/2026/08/04/w5uY/SyngDB.jpg',
-      link: '',
-      comingSoon: true
+      link: 'https://syngdb.data.scsio.ac.cn/'
     }
   ],
 
