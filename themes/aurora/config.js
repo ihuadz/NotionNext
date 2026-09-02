@@ -31,10 +31,9 @@ const CONFIG = {
       link: 'https://pigmatrix.kiz.ac.cn/'
     },
     {
-      title: 'DeepCellSeek',
-      image:
-        'https://files.seeusercontent.com/2026/08/04/s3pJ/deepcellseek.jpg',
-      link: 'https://deepcellseek.kiz.ac.cn/'
+      title: 'SyngDB',
+      image: 'https://files.seeusercontent.com/2026/08/04/w5uY/SyngDB.jpg',
+      link: 'https://syngdb.data.scsio.ac.cn/'
     },
     {
       title: 'PICA',
@@ -42,9 +41,10 @@ const CONFIG = {
       link: 'https://pica.kiz.ac.cn/'
     },
     {
-      title: 'SyngDB',
-      image: 'https://files.seeusercontent.com/2026/08/04/w5uY/SyngDB.jpg',
-      link: 'https://syngdb.data.scsio.ac.cn/'
+      title: 'DeepCellSeek',
+      image:
+        'https://files.seeusercontent.com/2026/08/04/s3pJ/deepcellseek.jpg',
+      link: 'https://deepcellseek.kiz.ac.cn/'
     }
   ],
 
